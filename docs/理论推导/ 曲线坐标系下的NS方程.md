@@ -1,0 +1,242 @@
+---
+sort: 2
+---
+# 曲线坐标系下的NS方程
+
+\documentclass{article}
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+\usepackage[english]{babel}
+
+% Set page size and margins
+% Replace `letterpaper' with `a4paper' for UK/EU standard size
+\usepackage[a4paper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{float}
+
+\title{The Navier-Stokes equations in curvilinear coordinates}
+\author{Fengshun Zhang}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+The incompressible Navier-Stokes equations for a Newtonian fluid read as follows:
+\begin{equation}
+\label{eq:NS_origin}
+\begin{aligned}
+    &\nabla \cdot \vec{v} = 0, \\
+    &\frac{\partial\vec{v}}{\partial{t}} + \vec{v}\cdot\nabla\vec{v} = -\nabla{p} + \frac{1}{Re}\nabla\cdot\tau,
+\end{aligned}
+\end{equation}
+where $\vec{v} = {u_i} \vec{e}_i = {U^i} \vec{g}_i$ is the velocity vector, $p$ is the static pressure divided by density $\rho$, $Re$ is the Reynolds number of the flow based on a characteristic length and velocity scales, $\tau = 2 \mu S$ is the shear stress tensor, and $S = \frac{1}{2}(\nabla\vec{v}+\vec{v}\nabla)$ is the strain rate tensor. Some of notation we adopt in this work is introduced as follows:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{c l c l}
+    \hline
+    $x_i$ & Cartesian coordinates & $\xi^i$ & curvilinear coordinates\\
+    $\vec{e}_i$ & Cartesian base vectors & $\vec{g}_i$ & covariant base vectors\\
+    $u_i$ & Cartesian velocity components & $U^i$ & contravariant velocity components\\
+          &     & $\vec{g}^i$ & contravariant base vectors\\
+          &     & $U_i$ & covariant velocity components\\
+    \hline
+\end{tabular}
+\caption{Some of notation we adopt in this work.}
+\label{tab:notation}
+\end{table}
+
+There are two approaches one can adopt to implement such a coordinate transformation, i.e. the partial transformation and the full transformation\cite{ge2007numerical}. We will derive them in the next two sections. We review something about transformation of coordinates here.
+\begin{equation}\label{eq:transformation_vector}
+\begin{aligned}
+    \vec{g}_i &= \frac{\partial{\vec{r}}}{\partial{\xi^i}} = \frac{\partial{\vec{r}}}{\partial{x^j}} \frac{\partial{x^j}}{\partial\xi^i} = \frac{\partial{x^j}}{\partial\xi^i} \vec{e}_j,\\
+    \vec{e}_i &= \frac{\partial{\vec{r}}}{\partial{x^i}} = \frac{\partial{\vec{r}}}{\partial{\xi^j}} \frac{\partial{\xi^j}}{\partial{x}^i} = \xi^j_i \vec{g}_j,
+\end{aligned}
+\end{equation}
+where $\xi^j_i = \frac{\partial{\xi^j}}{\partial{x}^i}$ is the element of Jacobian matrix. In this way, we obtain the relationship between the contravariant velocity components and Cartesian velocity components as follows:
+\begin{equation}\label{eq:transformation_component}
+\begin{aligned}
+    U^j &= \xi^j_i u_i,\\
+    u_j &= \frac{\partial{x_j}}{\partial\xi^i} U^i,
+\end{aligned}
+\end{equation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{The partial transformation}
+In the partial transformation approach only the independent $\{x_i\}$ are transformed to curvilinear coordinates while the dependent variables, the components of the velocity field, are retained in terms of their Cartesian components $\{u_i\}$. The partially transformed equations can be derived as follows:
+\begin{equation}\label{eq:parTransNS}
+\begin{aligned}
+    &J \frac{\partial}{\partial\xi^i}\left( \frac{\xi^i_j}{J} \cdot u_j \right) = 0,\\
+    &\frac{\partial{u_j}}{\partial{t}} + C(u_j) + G_j(p) - \frac{1}{Re} D(u_j) = 0,
+\end{aligned}
+\end{equation}
+where $C$, $G$, and $D$ are the convective, gradient, and viscous operators defined in curvilinear coordinates as follows:
+\begin{equation}\label{eq:operators}
+\begin{aligned}
+    C(u_j) &= (\vec{v}\cdot\nabla{\vec{v}})\cdot{\vec{e}_j} = U^i\vec{g}_i\cdot\vec{g^k}\frac{\partial}{\partial{\xi}^k}(u_l\vec{e}_l)\cdot{\vec{e}_j} = U^i\frac{\partial{u_j}}{\partial\xi^i} = J \frac{\partial}{\partial\xi^i}\left(\frac{U^i}{J}\cdot{u_j}\right),\\
+    G_j(p) &= (\nabla{p})\cdot\vec{e}_j = \vec{g^i}\frac{\partial{p}}{\partial{\xi^i}}\cdot \vec{e}_j = \xi^i_k\vec{e}_k\frac{\partial{p}}{\partial{\xi^i}}\cdot \vec{e}_j = \xi^i_j \frac{\partial{p}}{\partial\xi^i} = J \frac{\partial}{\partial{\xi^i}}\left(\frac{{\xi^i_j}}{J}\cdot p\right),\\
+    D(u_j) &= (\nabla\cdot\nabla\vec{v})\cdot\vec{e}_j = \nabla\cdot{G(u_j)} = J \frac{\partial}{\partial\xi^i}\left( \frac{\xi^i_l}{J} \cdot \xi^k_l\frac{\partial{u_j}}{\partial\xi^k} \right) = J \frac{\partial}{\partial\xi^i}\left( \frac{\xi^i_l\xi^k_l}{J}\frac{\partial}{\partial\xi^k}  \cdot{u_j}\right).
+\end{aligned}
+\end{equation}
+Substituting operators above into equation (\ref{eq:parTransNS}), we have:
+\begin{equation}\label{eq:parTransNS_final}
+\begin{aligned}
+    &J \frac{\partial}{\partial\xi^i}\left( \frac{\xi^i_j}{J} \cdot u_j \right) = 0,\\
+    &\frac{\partial{u_j}}{\partial{t}} = J\left(-\frac{\partial}{\partial\xi^i}\left(\frac{U^i}{J}\cdot{u_j}\right) -  \frac{\partial}{\partial{\xi^i}}\left(\frac{{\xi^i_j}}{J}\cdot p\right) + \frac{1}{Re}\frac{\partial}{\partial\xi^i}\left( \frac{\xi^i_l\xi^k_l}{J}\frac{\partial}{\partial\xi^k}  \cdot{u_j}\right)\right).
+\end{aligned}
+\end{equation}
+Selecting the surface volume fluxes $V^i = U^i/J$ as the dependent variables in left hand side of equation (\ref{eq:parTransNS_final}), the transport equation for the volume fluxes read as follows:
+\begin{equation}\label{eq:parTransNS_flux}
+\begin{aligned}
+    &J \frac{\partial{V^i}}{\partial\xi^i} = 0,\\
+    &\frac{1}{J}\frac{\partial{V^l}}{\partial{t}} = \frac{\xi^l_j}{J}\left(-\frac{\partial}{\partial\xi^i}\left(V^i{u_j}\right) -  \frac{\partial}{\partial{\xi^i}}\left(\frac{{\xi^i_j}p}{J}\right) + \frac{1}{Re}\frac{\partial}{\partial\xi^i}\left( \frac{\xi^i_l\xi^k_l}{J}\frac{\partial{u_j}}{\partial\xi^k}  \right)\right).
+\end{aligned}
+\end{equation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{The full transformation}
+In the full transformation approach both the independent variables are transformed in generalized curvilinear coordinates. The fully transformed governing equations read as follows \cite{ge2007numerical}:
+
+\begin{equation}\label{eq:fullTransNS}
+\begin{aligned}
+    &J\frac{\partial{V^j}}{\partial\xi^j}=0,\\
+    &\frac{1}{J}\frac{\partial{V^j}}{\partial{t}}+\textbf{C}(V^j) + \textbf{G}_j (p) - \frac{1}{Re}\textbf{D}(V^j)=0.
+\end{aligned}
+\end{equation}
+The fully transformed convective $ \textbf{C} $ read as follow:
+\begin{equation}\label{eq:operators_C}
+\begin{aligned}
+    \textbf{C}(V^j) &= \frac{1}{J^2}(\vec{v}\cdot\nabla{\vec{v}}) \cdot\vec{g^j}= V^i\vec{g}_i\cdot\vec{g^k}\frac{\partial}{\partial{\xi}^k}(V^q\vec{g}_q)\cdot{\vec{g^j}}\\
+    &= V^i\frac{\partial}{\partial{\xi^i}}(V^q\vec{g}_q) \cdot\Vec{g^j}\\
+    &= \frac{\partial}{\partial\xi^i}\left(V^iV^q\vec{g}_q\right) \cdot \Vec{g^j}\\
+    &= (V^i V^q)_{,i} \Vec{g}_q\cdot\Vec{g^j}\\
+    &= (V^i V^j)_{,i}.
+\end{aligned}
+\end{equation}
+The covariant derivative operator that appears in the above equations is defined as \cite{huang2003tensor}:
+\begin{equation}
+    (f^i)_{,j} = \frac{\partial{f^i}}{\partial{\xi^j}} + f^k\Gamma_{kj}^i,
+\end{equation}
+where $\Gamma_{ij}^k$ is the Christoffel symbols of the second kind defined as equation (\ref{appEq:Christoffel}) in appendix \ref{appSec:div}. The fully transformed gradient $\textbf{G}_j$ operator read as follows:
+\begin{equation}\label{eq:operators_G}
+\begin{aligned}
+    \textbf{G}_j(p) = \frac{1}{J^2}\nabla{p}\cdot\vec{g^j} = \frac{1}{J^2}\vec{g^i}\frac{\partial{p}}{\partial{\xi^i}}\cdot \vec{g^j} = \frac{g^{ij}}{J^2}\frac{\partial{p}}{\partial{\xi^i}}=\frac{\xi^j_k}{J}\frac{\partial}{\partial{\xi^i}}\left(\frac{\xi^i_k}{J}\cdot{p}\right),
+\end{aligned}
+\end{equation}
+where $g^{ij}=\Vec{g^i}\cdot\Vec{g^j}=\xi^i_k\xi^j_k$ is contravariant component of the metric tensor. The fully transformed viscous $ \textbf{D} $ operator read as follows:
+\begin{equation}\label{eq:operators_D}
+\begin{aligned}
+    \textbf{D}(V^j) & = \frac{1}{J^2}[ \nabla \cdot (\nabla\vec{v}+\vec{v}\nabla) ] \cdot \vec{g^j}\\
+    &=\frac{1}{J}\left[\Vec{g^i}\frac{\partial}{\partial\xi^i} \cdot \left( \Vec{g^k}\frac{\partial}{\partial\xi^k}(V^l\Vec{g}_l) \right) \right] \cdot \Vec{g^j} + \frac{1}{J}\left[\Vec{g^i}\frac{\partial}{\partial\xi^i} \cdot \left( \frac{\partial(V^l\Vec{g}_l)}{\partial\xi^k} \Vec{g^k}\right) \right] \cdot \Vec{g^j}\\
+    &=\left[\frac{\partial}{\partial\xi^i}\left( \frac{g^{ik}}{J}\frac{\partial}{\partial\xi^k}(V^l\Vec{g}_l) \right) \right] \cdot \Vec{g^j} + \frac{1}{J}\left[\Vec{g^i}\frac{\partial}{\partial\xi^i} \cdot \left( (V^l)_{,k}\Vec{g}_l \Vec{g^k}\right) \right] \cdot \Vec{g^j}\\
+    &=\frac{1}{J}\left[\frac{\partial}{\partial\xi^i}\left(g^{ik} (V^l)_{,k}\Vec{g}_l \right) \right] \cdot \Vec{g^j} + \frac{1}{J}\left[\frac{\partial}{\partial\xi^l}\left( g^{km}(V^l)_{,k} \Vec{g}_m\right) \right] \cdot \Vec{g^j}\\
+    &=\frac{1}{J}\left[\frac{\partial}{\partial\xi^i}\left(g^{ik} (V^l)_{,k}\Vec{g}_l \right) + \frac{\partial}{\partial\xi^i}\left( g^{kl}(V^i)_{,k} \Vec{g}_l\right) \right] \cdot \Vec{g^j}\\
+    &=\frac{1}{J}\left[ g^{ik} (V^l)_{,k} +  g^{kl}(V^i)_{,k}  \right]_{,i} \Vec{g}_l\cdot \Vec{g^j}\\
+    &=\frac{1}{J}\left( g^{ik} (V^j)_{,k} +  g^{kj}(V^i)_{,k}  \right)_{,i}
+\end{aligned}
+\end{equation}
+Substituting equation (\ref{eq:operators_C}), (\ref{eq:operators_G}) and (\ref{eq:operators_D}) into equation (\ref{eq:fullTransNS}), we obtain:
+\begin{equation}\label{eq:fullTransNS_final}
+\begin{aligned}
+    &J\frac{\partial{V^j}}{\partial\xi^j}=0,\\
+    &\frac{\partial{V^j}}{\partial{t}} = - J(V^i V^j)_{,i} - \frac{g^{ij}}{J}\frac{\partial{p}}{\partial{\xi^i}} + \frac{1}{Re}\left( g^{ik} (V^j)_{,k} +  g^{kj}(V^i)_{,k}  \right)_{,i}.
+\end{aligned}
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Two-phase incompressible flow}
+The VFS-Wind code solves the spatially-filtered Navier-Stokes equations governing incompressible flows of two immiscible fluids. The equations adopt a two-fluid formulation based on the level set method\cite{osher2005level} and are expressed in generalized curvilinear coordinates as follows($i,j,k,l=1,2,3$):
+\begin{equation}\label{eq:vfs-wind}
+\begin{aligned}
+    &J \frac{\partial{V^i}}{\partial\xi^i} = 0,\\
+    &\frac{1}{J}\frac{\partial{V^l}}{\partial{t}} = \frac{\xi^l_j}{J}\bigg[ -\frac{\partial}{\partial\xi^i}\left(V^i{u_j}\right) + \frac{1}{\rho(\phi)Re}\frac{\partial}{\partial\xi^i}\left( \mu(\phi)\frac{\xi^i_l\xi^k_l}{J}\frac{\partial{u_j}}{\partial\xi^k}  \right) -  \frac{1}{\rho(\phi)}\frac{{\xi^i_j}}{J}\frac{\partial{p}}{\partial{\xi^i}}\\
+    &\qquad\qquad\qquad -\frac{\xi^i_k}{\rho(\phi)}\frac{\partial\tau_{kj}}{\partial\xi^i}- \frac{\kappa}{\rho(\phi)}\frac{\xi^i_j}{JWe^2}\frac{\partial{h}(\phi)}{\partial{\xi^i}}+\frac{\delta_{j2}}{Fr^2}\bigg].
+\end{aligned}
+\end{equation}
+where $\phi$ is the level set function, $\tau_{ij}$ is the subgrid scale tensor, $kappa$ is the curvature of the interface, $\delta_{ij}$ is the Kronecker delta, $h$ is the smoothed Heaviside function, and $Re$, $Fr$ and $We$ are the dimensionless Reynolds, Froude and Weber numbers, respectively, which can be defined as:
+\begin{equation}
+    Re = \frac{UL\rho_{water}}{\mu_{water}}, Fr = \frac{U}{\sqrt{gL}}, We = U\sqrt{\frac{\rho_{water}L}{\sigma}},
+\end{equation}
+where $U$ and $L$ are the characteristic velocity and linear dimension, $\rho_{water}$ and $\mu_{water}$, the density and dynamic viscosity of the water phase, $g$ the gravitational acceleration,
+and $\sigma$ the surface tension.
+
+The level set function $\phi$ is a signed distance function, adopting positive values on the water phase and negative values on the air phase. The density and viscosity are taken to be constant within each phase, and transition smoothly across the interface,
+which is smeared over a distance $2\epsilon$, as follows:
+\begin{equation}
+\begin{aligned}
+    &\rho(\phi) = \rho_{air} + (\rho_{water}-\rho_{air})h(\phi),\\
+    &\mu(\phi) = \mu_{air} + (\mu_{water}-\mu_{air})h(\phi),
+\end{aligned}
+\end{equation}
+where $h(\phi)$ is the numerically smeared-out Heaviside function defined as:
+\begin{equation}
+h(\phi) = 
+\begin{cases}
+    0, \qquad\qquad\qquad\qquad\qquad\quad \phi<-\epsilon,\\
+    \frac{1}{2}+\frac{\phi}{2\epsilon}+\frac{1}{2\pi}sin\left(\frac{\pi\phi}{\epsilon}\right),\quad -\epsilon\leq\phi\leq\epsilon,\\
+    1,\qquad\qquad\qquad\qquad\qquad\quad  \epsilon<\phi.
+\end{cases}
+\end{equation}
+This removes all discontinuities across the interface, except the jump in pressure due to surface tension. Using the immersed
+boundary method to smear out the pressure across the interface leads to continuity of the pressure, and loss of all surface-tension effects. This was remedied by adding a new forcing term to the right-hand side of the momentum equations. In the context of level set methods this new forcing term takes the form \cite{osher2005level}:
+\begin{equation}
+    \Vec{f}_{\sigma} = - \frac{\sigma \kappa}{\rho(\phi)} \delta(\phi)  \vec{N} = - \frac{\sigma \kappa}{\rho(\phi)} \delta(\phi) \nabla \phi = - \frac{\sigma \kappa}{\rho(\phi)} \nabla{h(\phi)},
+\end{equation}
+which leads to the last but one term in the second equation of (\ref{eq:vfs-wind}).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\appendix
+
+\section{Divergence in curvilinear coordinates}\label{appSec:div}
+Divergence in curvilinear coordinates read as follows \cite{huang2003tensor}:
+\begin{equation}\label{appEq:div}
+\begin{aligned}
+    \vec{g^i} \frac{\partial}{\partial{\xi^i}} \cdot \left(U^j \vec{g}_j\right) = \vec{g^i} \cdot \left(\frac{\partial{U^j}}{\partial{\xi^i}} \vec{g_j} + U^k \frac{\partial{\vec{g}_k}}{\partial{\xi^i}} \right) = \frac{\partial{U^j}}{\partial{\xi^i}}\delta_{ij} + U^k \Gamma_{ik}^j \delta_{ij} = \frac{\partial{U^i}}{\partial{\xi^i}} + U^k\Gamma_{ik}^i,
+\end{aligned}
+\end{equation}
+where $\Gamma_{ij}^k$ is the Christoffel symbols of the second kind defined as:
+\begin{equation}\label{appEq:Christoffel}
+    \frac{\partial{\vec{g}_i}}{\partial{\xi^j}} = \Gamma_{ij}^{k}\vec{g}_k \rightarrow \Gamma_{ij}^{k} = \frac{\partial{\vec{g}_i}}{\partial{\xi^j}} \cdot \vec{g}_k.
+\end{equation}
+According to the definition of covariant base vector (\ref{eq:transformation_vector}), we can easily get the property of this Christoffel, i.e. $\Gamma_{ij}^k = \Gamma_{ji}^k$. And we define $g = |[\vec{g}_m][\vec{g}_n]^T|=|\left(\vec{g}_1 \times \vec{g}_2\right) \cdot \vec{g}_3 |^2$, then we have: 
+\begin{equation}\label{appEq:gamma}
+\begin{aligned}
+    \frac{\partial{\sqrt{g}}}{\partial\xi^1} & = \frac{\partial}{\partial{\xi^1}} \left| \left(\vec{g}_1 \times \vec{g}_2\right) \cdot \vec{g}_3 \right| \\
+    & = \left| \left(\frac{\partial{\vec{g}_1}}{\partial{\xi^1}} \times \vec{g}_2\right) \cdot \vec{g}_3 + \left( \vec{g}_1 \times \frac{\partial{\vec{g}_2}}{\partial{\xi^1}} \right) \cdot \vec{g}_3 + (\vec{g}_1 \times \vec{g}_2) \cdot \frac{\partial{\vec{g}_3}}{\partial{\xi^1}} \right|\\
+    & = (\Gamma_{11}^1 +\Gamma_{12}^2 +\Gamma_{13}^3 ) \cdot |(\vec{g}_1 \times \vec{g}_2) \cdot \vec{g}_3 |\\
+    & = \Gamma_{1i}^i \sqrt{g}.
+\end{aligned}
+\end{equation}
+A general form of equation (\ref{appEq:gamma}) can be written as:
+\begin{equation}
+    \Gamma_{ij}^i = \frac{1}{\sqrt{g}}\frac{\partial{\sqrt{g}}}{\partial\xi^j}
+\end{equation}
+Equation (\ref{eq:transformation_vector}) can be rewritten in vectors as:
+\begin{equation}
+    [ \vec{e}_i ] = [ \xi^j_i ] \cdot [ \vec{g}_j ],
+\end{equation}
+where $[\vec{e}_i]=[\Vec{e}_1, \Vec{e}_2, \Vec{e}_3]^T, [\vec{g}_j]=[\Vec{g}_1, \Vec{g}_2, \Vec{g}_3]^T$ and $[\xi^j_i]$ is the Jacobian matrix. Then we have:
+\begin{equation}
+    I = [ \vec{e}_i ] [ \vec{e}_j ]^T = \left[ \xi^m_i \right] [ \vec{g}_m ] [ \vec{g}_n ]^T \left[\xi^n_j \right]^T
+\end{equation}
+The determinant of the matrix above can be written as:
+\begin{equation}
+    1 = \left| [ \xi^m_i ] [ \vec{g}_m ] [ \vec{g}_n ]^T [ \xi^n_j ]^T \right| = J \cdot |[ \vec{g}_m ] [ \vec{g}_n ]^T|\cdot{J} = J^2\cdot{g},
+\end{equation}
+so that $J = \frac{1}{\sqrt{g}}$. Then equation (\ref{appEq:div}) can be read as follows:
+\begin{equation}\label{appEq:div_final}
+\begin{aligned}
+    \nabla\cdot\vec{v} = \frac{\partial{U^i}}{\partial{\xi^i}} + U^k \frac{1}{\sqrt{g}}\frac{\partial{\sqrt{g}}}{\partial\xi^k} = J \frac{\partial}{\partial\xi^i}\left( \frac{U^i}{J}\right) = J \frac{\partial}{\partial\xi^i}\left( \frac{\xi^i_j}{J} \cdot u_j \right).
+\end{aligned}
+\end{equation}
+
+
+
+
+\bibliographystyle{plain}
+\bibliography{sample}
+
+\end{document}
