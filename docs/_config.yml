@@ -1,6 +1,6 @@
-title: test
+title: OnlineDocs
 lang: en
-description: a project for test
+description: This an online documentation for taking some notes.
 
 remote_theme: rundocs/jekyll-rtd-theme
 
