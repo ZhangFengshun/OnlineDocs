@@ -63,7 +63,7 @@ $$
 
 ## The partial transformation
 
-In the partial transformation approach only the independent $$\{x_i\}$$ are transformed to curvilinear coordinates while the dependent variables, the components of the velocity field, are retained in terms of their Cartesian components $$\{u_i\}$$. The partially transformed equations can be derived as follows:
+In the partial transformation approach only the independent $${x_i}$$ are transformed to curvilinear coordinates while the dependent variables, the components of the velocity field, are retained in terms of their Cartesian components $${u_i}$$. The partially transformed equations can be derived as follows:
 
 $$
 \begin{equation}
