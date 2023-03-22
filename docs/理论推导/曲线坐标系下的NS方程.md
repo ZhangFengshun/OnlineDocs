@@ -39,7 +39,7 @@ where $$\vec{v} = {u_i} \vec{e}_i = {U^i} \vec{g}_i$$ is the velocity vector, $$
     </table>
 </div>
 
-There are two approaches one can adopt to implement such a coordinate transformation, i.e. the partial transformation and the full transformation\cite{ge2007numerical}. We will derive them in the next two sections. We review something about transformation of coordinates here.
+There are two approaches one can adopt to implement such a coordinate transformation, i.e. the partial transformation and the full transformation[1]. We will derive them in the next two sections. We review something about transformation of coordinates here.
 
 $$
 \begin{equation}
@@ -86,7 +86,7 @@ $$
 \end{equation}\tag{5}
 $$
 
-Substituting operators above into equation (\ref{eq:parTransNS}), we have:
+Substituting operators above into equation (4), we have:
 
 $$
 \begin{equation}
@@ -97,7 +97,7 @@ $$
 \end{equation}\tag{6}
 $$
 
-Selecting the surface volume fluxes $V^i = U^i/J$ as the dependent variables in left hand side of equation (\ref{eq:parTransNS_final}), the transport equation for the volume fluxes read as follows:
+Selecting the surface volume fluxes $V^i = U^i/J$ as the dependent variables in left hand side of equation (6), the transport equation for the volume fluxes read as follows:
 
 $$
 \begin{equation}
@@ -110,7 +110,7 @@ $$
 
 ## The full transformation
 
-In the full transformation approach both the independent variables are transformed in generalized curvilinear coordinates. The fully transformed governing equations read as follows \cite{ge2007numerical}:
+In the full transformation approach both the independent variables are transformed in generalized curvilinear coordinates. The fully transformed governing equations read as follows[1]:
 
 $$
 \begin{equation}
@@ -135,7 +135,7 @@ $$
 \end{equation}\tag{9}
 $$
 
-The covariant derivative operator that appears in the above equations is defined as \cite{huang2003tensor}:
+The covariant derivative operator that appears in the above equations is defined as [2]:
 
 $$
 \begin{equation}
@@ -143,7 +143,7 @@ $$
 \end{equation}\tag{10}
 $$
 
-where $$\Gamma_{ij}^k$$ is the Christoffel symbols of the second kind defined as equation (\ref{appEq:Christoffel}) in appendix \ref{appSec:div}. The fully transformed gradient $$\textbf{G}_j$$ operator read as follows:
+where $$\Gamma_{ij}^k$$ is the Christoffel symbols of the second kind defined as equation (20) in appendix A. The fully transformed gradient $$\textbf{G}_j$$ operator read as follows:
 
 $$
 \begin{equation}
@@ -169,7 +169,7 @@ $$
 \end{equation}\tag{12}
 $$
 
-Substituting equation (\ref{eq:operators_C}), (\ref{eq:operators_G}) and (\ref{eq:operators_D}) into equation (\ref{eq:fullTransNS}), we obtain:
+Substituting equation (9), (11) and (12) into equation (8), we obtain:
 
 $$
 \begin{equation}
@@ -181,7 +181,7 @@ $$
 $$
 
 $$ Two-phase incompressible flow
-The VFS-Wind code solves the spatially-filtered Navier-Stokes equations governing incompressible flows of two immiscible fluids. The equations adopt a two-fluid formulation based on the level set method\cite{osher2005level} and are expressed in generalized curvilinear coordinates as follows( $$i,j,k,l=1,2,3$$ ):
+The VFS-Wind code solves the spatially-filtered Navier-Stokes equations governing incompressible flows of two immiscible fluids. The equations adopt a two-fluid formulation based on the level set method[3] and are expressed in generalized curvilinear coordinates as follows( $$i,j,k,l=1,2,3$$ ):
 
 $$
 \begin{equation}
@@ -230,7 +230,7 @@ h(\phi) =
 $$
 
 This removes all discontinuities across the interface, except the jump in pressure due to surface tension. Using the immersed
-boundary method to smear out the pressure across the interface leads to continuity of the pressure, and loss of all surface-tension effects. This was remedied by adding a new forcing term to the right-hand side of the momentum equations. In the context of level set methods this new forcing term takes the form \cite{osher2005level}:
+boundary method to smear out the pressure across the interface leads to continuity of the pressure, and loss of all surface-tension effects. This was remedied by adding a new forcing term to the right-hand side of the momentum equations. In the context of level set methods this new forcing term takes the form [3]:
 
 $$
 \begin{equation}
@@ -238,11 +238,11 @@ $$
 \end{equation}\tag{18}
 $$
 
-which leads to the last but one term in the second equation of (\ref{eq:vfs-wind}).
+which leads to the last but one term in the second equation of (14).
 
 ## Appendix A: Divergence in curvilinear coordinates
 
-Divergence in curvilinear coordinates read as follows \cite{huang2003tensor}:
+Divergence in curvilinear coordinates read as follows [2]:
 
 $$
 \begin{equation}
@@ -260,7 +260,7 @@ $$
 \end{equation}\tag{20}
 $$
 
-According to the definition of covariant base vector (\ref{eq:transformation_vector}), we can easily get the property of this Christoffel, i.e. $$\Gamma_{ij}^k = \Gamma_{ji}^k$$. And we define $$g = |[\vec{g}_m][\vec{g}_n]^T|=|\left(\vec{g}_1 \times \vec{g}_2\right) \cdot \vec{g}_3 |^2$$, then we have: 
+According to the definition of covariant base vector (2), we can easily get the property of this Christoffel, i.e. $$\Gamma_{ij}^k = \Gamma_{ji}^k$$. And we define $$g = |[\vec{g}_m][\vec{g}_n]^T|=|\left(\vec{g}_1 \times \vec{g}_2\right) \cdot \vec{g}_3 |^2$$, then we have: 
 
 $$
 \begin{equation}
@@ -273,7 +273,7 @@ $$
 \end{equation}\tag{21}
 $$
 
-A general form of equation (\ref{appEq:gamma}) can be written as:
+A general form of equation (21) can be written as:
 
 $$
 \begin{equation}
@@ -281,7 +281,7 @@ $$
 \end{equation}\tag{22}
 $$
 
-Equation (\ref{eq:transformation_vector}) can be rewritten in vectors as:
+Equation (2) can be rewritten in vectors as:
 
 $$
 \begin{equation}
@@ -305,7 +305,7 @@ $$
 \end{equation}\tag{25}
 $$
 
-so that $$J = \frac{1}{\sqrt{g}}$$. Then equation (\ref{appEq:div}) can be read as follows:
+so that $$J = \frac{1}{\sqrt{g}}$$. Then equation (19) can be read as follows:
 
 $$
 \begin{equation}
