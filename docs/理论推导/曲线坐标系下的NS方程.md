@@ -21,21 +21,24 @@ where $$\vec{v} = {u_i} \vec{e}_i = {U^i} \vec{g}_i$$ is the velocity vector, $$
 |       |                       |          |                        |
 |-------|-----------------------|----------|------------------------|
 | $$x_i$$ | Cartesian coordinates |  $$\xi^i$$ | curvilinear coordinates|
-| $$\vec{e}_i$$ | Cartesian base vectors| $$\vec{g}_i$$ | covariant base vectors |
+|  | | $$\vec{g}_i$$ |  |
 |$$u_i$$ | Cartesian velocity components | $$U^i$$ | contravariant velocity components |
 |      |                      | $$\vec{g}^i$$ | contravariant base vectors |
 |     |                       | $$U_i$$ | covariant velocity components |
-
+<div align="center">
 <table>
-  <caption>Some of notation we adopt in this work.</caption>
-  <tr>
-    <td> $$x_i$$ </td>
-    <td> Cartesian coordinates </td>
-     <td> $\xi^i$ </td>
-    <td> curvilinear coordinates </td>
-  </tr>
-  <tr>
-    <td>行 2，列 1</td>
-    <td>行 2，列 2</td>
-  </tr>
+    <caption>Some of notation we adopt in this work.</caption>
+    <tr>
+        <td> $$x_i$$ </td>
+        <td> Cartesian coordinates </td>
+        <td> $$\xi^i$$ </td>
+        <td> Curvilinear coordinates </td>
+    </tr>
+    <tr>
+        <td>$$\vec{e}_i$$</td>
+        <td>Cartesian base vectors</td>
+        <td>$$\vec{g}_i$$ </td>
+        <td>Covariant base vectors</td>
+    </tr>
 </table>
+</div>
