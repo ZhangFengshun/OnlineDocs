@@ -180,7 +180,8 @@ $$
 \end{equation}\tag{13}
 $$
 
-$$ Two-phase incompressible flow
+## Two-phase incompressible flow
+
 The VFS-Wind code solves the spatially-filtered Navier-Stokes equations governing incompressible flows of two immiscible fluids. The equations adopt a two-fluid formulation based on the level set method[3] and are expressed in generalized curvilinear coordinates as follows( $$i,j,k,l=1,2,3$$ ):
 
 $$
