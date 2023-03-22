@@ -20,7 +20,7 @@ where $$\vec{v} = {u_i} \vec{e}_i = {U^i} \vec{g}_i$$ is the velocity vector, $$
 
 <div align="center">
     <table>
-    <caption>Some of notation we adopt in this work.</caption>
+    <caption>Some notations we adopt in this work.</caption>
     <tr>
         <td> $$x_i$$ </td> <td> Cartesian coordinates </td> <td> $$\xi^i$$ </td> <td> Curvilinear coordinates </td>
     </tr>
