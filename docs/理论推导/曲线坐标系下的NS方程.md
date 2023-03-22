@@ -97,7 +97,7 @@ $$
 \end{equation}\tag{6}
 $$
 
-Selecting the surface volume fluxes $V^i = U^i/J$ as the dependent variables in left hand side of equation (6), the transport equation for the volume fluxes read as follows:
+Selecting the surface volume fluxes $$V^i = U^i/J$$ as the dependent variables in left hand side of equation (6), the transport equation for the volume fluxes read as follows:
 
 $$
 \begin{equation}
