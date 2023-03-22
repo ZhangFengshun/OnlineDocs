@@ -27,14 +27,12 @@ where $$\vec{v} = {u_i} \vec{e}_i = {U^i} \vec{g}_i$$ is the velocity vector, $$
 |     |                       | $$U_i$$ | covariant velocity components |
 
 <table>
-  <caption>这是一个表格标题</caption>
+  <caption>Some of notation we adopt in this work.</caption>
   <tr>
-    <th>列 1</th>
-    <th>列 2</th>
-  </tr>
-  <tr>
-    <td>行 1，列 1</td>
-    <td>行 1，列 2</td>
+    <td> $$x_i$$ </td>
+    <td> Cartesian coordinates </td>
+     <td> $\xi^i$ </td>
+    <td> curvilinear coordinates </td>
   </tr>
   <tr>
     <td>行 2，列 1</td>
