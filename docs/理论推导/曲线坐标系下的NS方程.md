@@ -261,7 +261,7 @@ $$
 \end{equation}\tag{20}
 $$
 
-According to the definition of covariant base vector (2), we can easily get the property of this Christoffel, i.e. $$\Gamma_{ij}^k = \Gamma_{ji}^k$$. And we define $$g = |[\vec{g}_m][\vec{g}_n]^T|=|\left(\vec{g}_1 \times \vec{g}_2\right) \cdot \vec{g}_3 |^2$$, then we have: 
+According to the definition of covariant base vector (2), we can easily get the property of this Christoffel, i.e. $$\Gamma_{ij}^k = \Gamma_{ji}^k$$. And we define $$g = |[\vec{g}_m][\vec{g}_n]^T| = |\left(\vec{g}_1 \times \vec{g}_2\right) \cdot \vec{g}_3 |^2$$ , then we have: 
 
 $$
 \begin{equation}
