@@ -80,7 +80,7 @@ $$
 \begin{equation}
 \begin{aligned}
     C(u_j) &= (\vec{v}\cdot\nabla{\vec{v}})\cdot{\vec{e}_j} = U^i\vec{g}_i\cdot\vec{g^k}\frac{\partial}{\partial{\xi}^k}(u_l\vec{e}_l)\cdot{\vec{e}_j} = U^i\frac{\partial{u_j}}{\partial\xi^i} = J \frac{\partial}{\partial\xi^i}\left(\frac{U^i}{J}\cdot{u_j}\right),\\
-    G_j(p) &= (\nabla{p})\cdot\vec{e}_j = \vec{g^i}\frac{\partial{p}}{\partial{\xi^i}}\cdot \vec{e}_j = \xi^i_k\vec{e}_k\frac{\partial{p}}{\partial{\xi^i}}\cdot \vec{e}_j = \xi^i_j \frac{\partial{p}}{\partial\xi^i} = J \frac{\partial}{\partial{\xi^i}}\left(\frac{{\xi^i_j}}{J}\cdot p\right),\\
+    G_j(p) &= (\nabla{p})\cdot\vec{e}_j = \vec{g^i}\frac{\partial{p}}{\partial{\xi^i}}\cdot \vec{e}_j = \xi^i_k\vec{e}_k\frac{\partial{p}}{\partial{\xi^i}}\cdot \vec{e}_j = \xi^i_j \frac{\partial{p}}{\partial\xi^i} = J \frac{\partial}{\partial{\xi^i}}\left(\frac{\xi^i_j}{J}\cdot p\right),\\
     D(u_j) &= (\nabla\cdot\nabla\vec{v})\cdot\vec{e}_j = \nabla\cdot{G(u_j)} = J \frac{\partial}{\partial\xi^i}\left( \frac{\xi^i_l}{J} \cdot \xi^k_l\frac{\partial{u_j}}{\partial\xi^k} \right) = J \frac{\partial}{\partial\xi^i}\left( \frac{\xi^i_l\xi^k_l}{J}\frac{\partial}{\partial\xi^k}  \cdot{u_j}\right).
 \end{aligned}
 \end{equation}\tag{5}
@@ -92,7 +92,7 @@ $$
 \begin{equation}
 \begin{aligned}
     &J \frac{\partial}{\partial\xi^i}\left( \frac{\xi^i_j}{J} \cdot u_j \right) = 0,\\
-    &\frac{\partial{u_j}}{\partial{t}} = J\left(-\frac{\partial}{\partial\xi^i}\left(\frac{U^i}{J}\cdot{u_j}\right) -  \frac{\partial}{\partial{\xi^i}}\left(\frac{{\xi^i_j}}{J}\cdot p\right) + \frac{1}{Re}\frac{\partial}{\partial\xi^i}\left( \frac{\xi^i_l\xi^k_l}{J}\frac{\partial}{\partial\xi^k}  \cdot{u_j}\right)\right).
+    &\frac{\partial{u_j}}{\partial{t}} = J\left(-\frac{\partial}{\partial\xi^i}\left(\frac{U^i}{J}\cdot{u_j}\right) -  \frac{\partial}{\partial{\xi^i}}\left(\frac{\xi^i_j}{J}\cdot p\right) + \frac{1}{Re}\frac{\partial}{\partial\xi^i}\left( \frac{\xi^i_l\xi^k_l}{J}\frac{\partial}{\partial\xi^k}  \cdot{u_j}\right)\right).
 \end{aligned}
 \end{equation}\tag{6}
 $$
@@ -103,7 +103,7 @@ $$
 \begin{equation}
 \begin{aligned}
     &J \frac{\partial{V^i}}{\partial\xi^i} = 0,\\
-    &\frac{1}{J}\frac{\partial{V^l}}{\partial{t}} = \frac{\xi^l_j}{J}\left(-\frac{\partial}{\partial\xi^i}\left(V^i{u_j}\right) -  \frac{\partial}{\partial{\xi^i}}\left(\frac{{\xi^i_j}p}{J}\right) + \frac{1}{Re}\frac{\partial}{\partial\xi^i}\left( \frac{\xi^i_l\xi^k_l}{J}\frac{\partial{u_j}}{\partial\xi^k}  \right)\right).
+    &\frac{1}{J}\frac{\partial{V^l}}{\partial{t}} = \frac{\xi^l_j}{J}\left(-\frac{\partial}{\partial\xi^i}\left(V^i{u_j}\right) -  \frac{\partial}{\partial{\xi^i}}\left(\frac{\xi^i_j p}{J}\right) + \frac{1}{Re}\frac{\partial}{\partial\xi^i}\left( \frac{\xi^i_l\xi^k_l}{J}\frac{\partial{u_j}}{\partial\xi^k}  \right)\right).
 \end{aligned}
 \end{equation}\tag{7}
 $$
@@ -187,7 +187,7 @@ $$
 \begin{equation}
 \begin{aligned}
     &J \frac{\partial{V^i}}{\partial\xi^i} = 0,\\
-    &\frac{1}{J}\frac{\partial{V^l}}{\partial{t}} = \frac{\xi^l_j}{J}\bigg[ -\frac{\partial}{\partial\xi^i}\left(V^i{u_j}\right) + \frac{1}{\rho(\phi)Re}\frac{\partial}{\partial\xi^i}\left( \mu(\phi)\frac{\xi^i_l\xi^k_l}{J}\frac{\partial{u_j}}{\partial\xi^k}  \right) -  \frac{1}{\rho(\phi)}\frac{{\xi^i_j}}{J}\frac{\partial{p}}{\partial{\xi^i}}\\
+    &\frac{1}{J}\frac{\partial{V^l}}{\partial{t}} = \frac{\xi^l_j}{J}\bigg[ -\frac{\partial}{\partial\xi^i}\left(V^i{u_j}\right) + \frac{1}{\rho(\phi)Re}\frac{\partial}{\partial\xi^i}\left( \mu(\phi)\frac{\xi^i_l\xi^k_l}{J}\frac{\partial{u_j}}{\partial\xi^k}  \right) -  \frac{1}{\rho(\phi)}\frac{\xi^i_j}{J}\frac{\partial{p}}{\partial{\xi^i}}\\
     &\qquad\qquad\qquad -\frac{\xi^i_k}{\rho(\phi)}\frac{\partial\tau_{kj}}{\partial\xi^i}- \frac{\kappa}{\rho(\phi)}\frac{\xi^i_j}{JWe^2}\frac{\partial{h}(\phi)}{\partial{\xi^i}}+\frac{\delta_{j2}}{Fr^2}\bigg].
 \end{aligned}
 \end{equation}\tag{14}
