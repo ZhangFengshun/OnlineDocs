@@ -20,11 +20,11 @@ where $$\vec{v} = {u_i} \vec{e}_i = {U^i} \vec{g}_i$$ is the velocity vector, $$
 
 |       |                       |          |                        |
 |-------|-----------------------|----------|------------------------|
-| $x_i$ | Cartesian coordinates |  $\xi^i$ | curvilinear coordinates|
-| $\vec{e}_i$ | Cartesian base vectors| $\vec{g}_i$ | covariant base vectors |
-|$u_i$ | Cartesian velocity components | $U^i$ | contravariant velocity components |
-|      |                      | $\vec{g}^i$ | contravariant base vectors |
-|     |                       | $U_i$ | covariant velocity components |
+| $$x_i$$ | Cartesian coordinates |  $$\xi^i$$ | curvilinear coordinates|
+| $$\vec{e}_i$$ | Cartesian base vectors| $$\vec{g}_i$$ | covariant base vectors |
+|$$u_i$$ | Cartesian velocity components | $$U^i$$ | contravariant velocity components |
+|      |                      | $$\vec{g}^i$$ | contravariant base vectors |
+|     |                       | $$U_i$$ | covariant velocity components |
 
 <table>
   <caption>这是一个表格标题</caption>
@@ -41,5 +41,3 @@ where $$\vec{v} = {u_i} \vec{e}_i = {U^i} \vec{g}_i$$ is the velocity vector, $$
     <td>行 2，列 2</td>
   </tr>
 </table>
-
-
