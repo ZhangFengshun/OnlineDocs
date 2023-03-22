@@ -317,5 +317,7 @@ $$
 
 ## Reference
 [1] [Ge L, Sotiropoulos F. A numerical method for solving the 3D unsteady incompressible Navier–Stokes equations in curvilinear domains with complex immersed boundaries[J]. Journal of computational physics, 2007, 225(2): 1782-1809.](https://www.sciencedirect.com/science/article/pii/S0021999107000873)
+
 [2] [Kezhi H, Mingde X, Mingwan L. Tensor analysis[M]. Tsinghua University Press, 2019.](https://www.amazon.com/Tensor-Analysis-Chinese-MING-HUANG/dp/7302521573)
+
 [3] [Osher S, Fedkiw R P. Level set methods and dynamic implicit surfaces[M]. New York: Springer, 2005.](http://ndl.ethernet.edu.et/bitstream/123456789/33018/1/9.pdf.pdf)
