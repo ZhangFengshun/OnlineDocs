@@ -5,5 +5,252 @@ sort: 2
 
 本文档主要介绍：当我们用python训练好一个神经网络模型并保存参数后如何根据这些参数文件在C++程序中复现该神经网络模型。
 
+'''cpp
+#include <iostream>
+#include <math.h>
+#include <vector>
+#include <fstream>
 
+using namespace std;
+
+class NeuralNetwork // zfs add on 2023/03/28
+{
+public:
+	NeuralNetwork(const string &root_path);
+	void loadModel(const int norm_type, const int act_type); // zfs add act_type
+	vector<double> feedForward(const vector<double> &input);
+	~NeuralNetwork();
+
+private:
+	int numLayers;			// number of layers
+	int normType;			// normalization type: 0 for [0,1], 1 for [-1,1]
+	int actType;			// activation type: 0 for ReLU, 1 for tanh
+	string model_path;		// directory of FNN model
+	vector<int> layerSizes; // neurons per layers
+	vector<double> min_in;	// min of inputs in training dataset
+	vector<double> max_in;	// max of inputs in training dataset
+	vector<double> min_out; // min of output in training dataset
+	vector<double> max_out; // max of output in training dataset
+
+	vector<vector<vector<double>>> weights;
+	vector<vector<double>> biases;
+	vector<vector<double>> activations;
+
+	double actfun(double z) // zfs note: activation function
+	{
+		if (actType == 0)
+			return ReLU(z);
+		else if (actType == 1)
+			return tanh(z);
+        else
+            return 0;
+	}
+
+	double ReLU(double x) // zfs add on 2023/04/06
+	{
+		if (x < 0)
+			return 0;
+		else
+			return x;
+	}
+};
+// zfs add on 2023/03/28
+NeuralNetwork::NeuralNetwork(const string &root_path)
+{
+  // zfs note: initialize private members
+  model_path = root_path;
+
+  string file_NN = model_path + "/NN.dat";
+
+  ifstream fin(file_NN.c_str());
+
+  int num;
+  while (fin >> num)
+  {
+    layerSizes.push_back(num);
+  }
+  numLayers = layerSizes.size();
+
+  for (int i = 0; i < numLayers; ++i)
+  {
+    int numNeurons = layerSizes[i]; // neurons per layer
+    activations.push_back(vector<double>(numNeurons, 0.0));
+
+    if (i == 0)
+    {
+      for (int i = 0; i < numNeurons; ++i)
+      {
+        max_in.push_back(0);
+        min_in.push_back(0);
+      }
+    }
+    else
+    {
+      weights.push_back(vector<vector<double>>(numNeurons, vector<double>(layerSizes[i - 1], 0.0)));
+      biases.push_back(vector<double>(numNeurons, 0.0));
+    }
+
+    if (i == numLayers - 1)
+    {
+      for (int i = 0; i < numNeurons; ++i)
+      {
+        max_out.push_back(0);
+        min_out.push_back(0);
+      }
+    }
+  }
+}
+
+void NeuralNetwork::loadModel(const int norm_type, const int act_type)
+{
+  normType = norm_type;
+  actType = act_type; // zfs add on 2023/04/06
+
+  string max_in_path = model_path + "/max_in.dat";
+  ifstream max_in_file(max_in_path.c_str());
+  if (max_in_file)
+  {
+    for (int i = 0; i < layerSizes[0]; ++i)
+    {
+      max_in_file >> max_in[i];
+    }
+  }
+  max_in_file.close();
+
+  string min_in_path = model_path + "/min_in.dat";
+  ifstream min_in_file(min_in_path.c_str());
+  if (min_in_file)
+  {
+    for (int i = 0; i < layerSizes[0]; ++i)
+    {
+      min_in_file >> min_in[i];
+    }
+  }
+  min_in_file.close();
+
+  string max_out_path = model_path + "/max_out.dat";
+  ifstream max_out_file(max_out_path.c_str());
+  if (max_out_file)
+  {
+    for (int i = 0; i < layerSizes[numLayers - 1]; ++i)
+    {
+      max_out_file >> max_out[i];
+    }
+  }
+  max_out_file.close();
+
+  string min_out_path = model_path + "/min_out.dat";
+  ifstream min_out_file(min_out_path.c_str());
+  if (min_out_file)
+  {
+    for (int i = 0; i < layerSizes[numLayers - 1]; ++i)
+    {
+      min_out_file >> min_out[i];
+    }
+  }
+  min_out_file.close();
+
+  for (int n = 0; n < numLayers - 1; ++n)
+  {
+    char buffer[32];
+    snprintf(buffer, 32, "%d", n + 1);
+    string strnplus1(buffer);
+    string weight_path = model_path + "/weight_" + strnplus1 + ".dat";
+    string bias_path = model_path + "/bias_" + strnplus1 + ".dat";
+    // string weight_path = model_path + "/weight_" + to_string(n + 1) + ".dat";
+    // string bias_path = model_path + "/bias_" + to_string(n + 1) + ".dat";
+
+    ifstream weight_file(weight_path.c_str());
+    ifstream bias_file(bias_path.c_str());
+
+    if (weight_file && bias_file)
+    {
+      for (int j = 0; j < layerSizes[n]; ++j)
+      {
+        for (int i = 0; i < layerSizes[n + 1]; ++i)
+        {
+          weight_file >> weights[n][i][j];
+        }
+      }
+      for (int j = 0; j < layerSizes[n + 1]; ++j)
+      {
+        bias_file >> biases[n][j];
+      }
+    }
+    else
+    {
+      cerr << "Failed to open file " << weight_path << " or " << bias_path << endl;
+    }
+
+    weight_file.close();
+    bias_file.close();
+  }
+}
+
+vector<double> NeuralNetwork::feedForward(const vector<double> &input)
+{
+
+  for (int i = 0; i < layerSizes[0]; ++i)
+  {
+    if (i == 0)
+        printf("FNN_Model inputs: ");
+
+    activations[0][i] = (input[i] - min_in[i]) / (max_in[i] - min_in[i]);
+    if (normType == 1)
+      activations[0][i] = 2 * activations[0][i] - 1;
+
+    printf("%f ", activations[0][i]);
+    //printf("FNN inputs: i=%d, max_in=%lf,min_in=%lf \n", i, max_in[i], min_in[i]);
+  }
+  printf("\n");
+
+  for (int n = 0; n < numLayers - 1; ++n)
+  {
+    for (int i = 0; i < layerSizes[n + 1]; ++i)
+    {
+      double z = biases[n][i];
+      for (int j = 0; j < layerSizes[n]; ++j)
+      {
+        z += activations[n][j] * weights[n][i][j];
+      }
+      activations[n + 1][i] = actfun(z);
+    }
+  }
+
+  for (int i = 0; i < layerSizes[numLayers - 1]; ++i)
+  {
+    printf("FNN_Model output: %f\n", activations[numLayers - 1][i]);
+
+    if (normType == 1)
+      activations[numLayers - 1][i] = (activations[numLayers - 1][i] + 1) / 2;
+
+    activations[numLayers - 1][i] = activations[numLayers - 1][i] * (max_out[i] - min_out[i]) + min_out[i];
+
+    //printf("max=%f, min=%f\n", max_out[i],min_out[i]);
+    //printf("FNN_Model output: %f\n\n", activations[numLayers - 1][i]);
+
+  }
+
+  return activations[numLayers - 1];
+}
+
+NeuralNetwork::~NeuralNetwork()
+{
+  printf( "FNN wall model is applied! \n");
+}
+// zfs add end
+
+int main()
+{
+    NeuralNetwork FNN_Model("./FNN");
+    int FNN_normType = 1;//数据标准化：0表示映射到[0,1];1表示映射到[-1，1]
+    int FNN_actType = 1;//激活函数类型：0表示ReLU,1表示tanh
+    FNN_Model.loadModel(FNN_normType,FNN_actType);
+
+    vector <double> inputs = {1,1,1};
+    vector <double> outputs = FNN_Model.feedForward(inputs);
+
+    return 0;
+}
+'''
 
